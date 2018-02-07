@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Try Outs</title>
+<script type="text/javascript" src="{% static 'js/jquery-3.0.0.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+</head>
+<body>
+    <div id="firstDiv">
+    <h1 id="firstHeader">Options</h1>
+    <input type="text" id="input" placeholder="Enter some thing"/>
+        <button id ="addButton">add</button>
+        <button id ="addAgainButton">undo</button>
+        
+    </div>
+    <div id="secondDiv">
+        <ol id="orderedList">
+        </ol>
+    </div>
+    <form method="post">{% csrf_token %}
+    <div id="container">
+    	<input type="text" name="q" placeholder="Enter some thing"/>
+    	<input type="submit" value="Search">
+    </div>
+    {% block container %}
+    <ul>
+	{% for obj in object_list %}
+		<li>{{obj.name}} {{obj.Location}} {{obj.category}} {{obj.created}} {{obj.updated}} {{year}}</li>
+	{% endfor %}
+	</ul>
+    {% endblock %}
+    
+    </form>
+</body>
+</html>

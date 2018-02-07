@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.views import View
 from django.views.generic import TemplateView,ListView
 from .models import RestaurantLocation
@@ -23,6 +23,26 @@ class SomeView(View):
 		context = {'html_var':'optimus'}
 		return context
 '''
+'''def search(request):
+    if 'q' in request.GET:
+        message = 'You searched for: %r' % request.GET['q']
+    else:
+        message = 'You submitted an empty form.'
+    return render(request,'tryouts.html',{'html_var':message})
+'''
+def search(request):
+	message = ''
+	context={}
+	if request.method == "POST":
+		message = request.POST.get("q")
+		query = RestaurantLocation.objects.filter(category__icontains=message)
+		print (request.POST)
+		print (message)
+		context.update({
+			'object_list':query
+		})
+	return render(request,'tryouts.html',context)
+
 class HomeView(ListView):
 	template_name='home.html'
 	def get_queryset(self):
