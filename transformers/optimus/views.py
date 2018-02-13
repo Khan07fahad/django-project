@@ -33,15 +33,24 @@ class SomeView(View):
 def search(request):
 	message = ''
 	context={}
-	if request.method == "POST":
+	if request.method == 'POST':
 		message = request.POST.get("q")
-		query = RestaurantLocation.objects.filter(category__icontains=message)
-		print (request.POST)
-		print (message)
-		context.update({
+		query = RestaurantLocation.objects.filter(category__iexact=message)
+		print(query)
+		if query:
+			context.update({
 			'object_list':query
-		})
+			})
+		else:
+			context.update({
+			'not_there':'Not able search'
+			})
+		print(context)
 	return render(request,'tryouts.html',context)
+
+
+
+
 
 class HomeView(ListView):
 	template_name='home.html'
